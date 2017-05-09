@@ -9,7 +9,7 @@ ui <- function(request){
   theme = shinythemes::shinytheme("superhero"),
   
   titlePanel(
-    title = "NESREA Twitter Exploratory Dataviz",
+    title = "NESREA SMExplorer",
     windowTitle = "Twitter Shiny app - NESREA"
   ),
   
@@ -18,25 +18,27 @@ ui <- function(request){
       
       width = 3,
       
-      strong(actionLink(inputId = "oauth",
-                 label = "Register new session")),
+      tags$div(title = "Click here to submit authentication credentials and 
+               start a new session",
+               strong(actionLink(inputId = "oauth",
+                                 label = "Register new session"))),
       
       hr(),
       
-      textInput("searchTerm", label = "Search", value = "nesreanigeria",
-                placeholder = "Term or hashtag"),
       
-      actionButton("goButton", label = "Go!"),
+      tags$div(title = "Type in what you're searching for here",
+               textInput("searchTerm", label = "Search", value = "nesreanigeria",
+              placeholder = "Term or hashtag")),
       
-      hr(),
-      
-      selectInput("outputstyle",
-                  label = "Select output type",
-                  choices = c("Density plot (week)", "Density plot (day)",
-                              "Platforms", "Emotions plot", "Wordcloud",
-                              "Network")),
-      
-      hr(),
+      tags$div(title = "Choose the type of output you want to view",
+               selectInput("outputstyle",
+                           label = "Select output type",
+                           choices = c("Density plot (week)", 
+                                       "Density plot (day)",
+                                       "Platforms",
+                                       "Emotions plot",
+                                       "Wordcloud",
+                                       "Network"))),
       
       conditionalPanel(
         condition = "input.outputstyle == 'Density plot (week)'",
@@ -58,7 +60,9 @@ ui <- function(request){
       
       conditionalPanel(
         condition = "input.outputstyle == 'Emotions plot'",
-        checkboxInput("emotiveExtremes", label = "View emotive extremes")
+        checkboxInput("emotiveExtremes",
+                      label = "View emotive extremes",
+                      value = FALSE)
       ),
       
       conditionalPanel(
@@ -69,19 +73,39 @@ ui <- function(request){
         condition = "input.outputstyle == 'Network'"
         ),
       
+      div(style = "border: 1px dotted black; background: dark-grey;
+          width: 60px",
+          actionButton("goButton", label = "Go!")),
+      
       hr(),
       
-      em(a(href = "mailto:victor.ordu@nesrea.gov.ng", "Feedback/Complaints"))
+      em(a(href = "https://github.com/NESREA/NESREA_social/issues/new",
+           "Feedback/Bug Reports"))
     ),
     
     mainPanel(
-      plotOutput("twtDensity"),
+      tags$div(title = "Plots will be displayed here.",
+               plotOutput("twtDensity")),
+      
+      div(style = "display:inline-block; vertical-align:top; padding-top:20px;
+          font-size: small;",
+          textOutput("twtnum", inline = TRUE)),
+      
+      div(
+        style = "display:inline-block; vertical-align:top;",
+        selectInput("numLoaded",
+                    label = "",
+                    width = "70px",
+                    choices = c(25, 50, 100, 150, 200, 250, 300, 500, 1000))),
+      
+      div(style = "display:inline-block; vertical-align:top;
+          padding-left: 10px; padding-top: 20px; margin-left: 30px",
+          bookmarkButton()),
       
       tableOutput("mostEmotive"),
       
-      bookmarkButton(),
-      
       width = 9
+      
       )
     )
   )
