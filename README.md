@@ -1,19 +1,44 @@
 # NESREA_social
+Easy social media reporting for [NESREA](http://www.nesrea.gov.ng)'s Web Monitoring Group.
 
-This project is focused on the development of social media reports carried out by [NESREA](http://www.nesrea.gov.ng)'s Web Monitoring Group.
+## Usage
+To use, download or `git clone` the repository.
 
-## Quick tips
-Please note these instructions:
+## Prerequisites
+* __R__: <http://cran.r-project.org>
+* __RTools__: <https://cran.r-project.org/bin/windows/Rtools/index.html>
+* __pandoc__: <http://pandoc.org/installing.html>
+* __Java__: <https://java.com/en/download/manual.jsp>
 
-1. Creating a report in MS Word is **super easy**. On the command line, navigate to **this** directory and run  
-`Rscript build-report.R`  
-This will produce a document that is placed in the `Reports` folder, and which has a filename that contains the date the report was generated, after the pattern `weekly-report_YYYY-MM-DD.docx`. If `Reports` does not exist on your computer, it will be automatically created.
+## Usage  
+### On the command line  
 
-2. The tweets are stored in a local SQLite database `data/nesreanigeria.db`, which may likely be outdated at the time the report is being generated. To update it, the user should run  
-`Rscript download-nesrea-tweets.R`  
+1. Build a report 
+navigate to the **NESREA_social** directory and simply type  
+```
+make doc
+```
 
-*System requirements:* To easily build these documents in the Windows command line, you will need to have [Rtools](https://cran.r-project.org/bin/windows/Rtools/) and [pandoc](http://pandoc.org/installing.html) installed.
+Upon running this command, the following will happen:
++ A Microsoft Word (.docx) document containing the results of the data analysis will be built.
++ A filename in the format `weekly-report_YYYY-MM-DD.docx` will be assigned to the document e.g. *weekly-report-2017-10-01* for a report generated on 1st October 2017.
++ A `Reports/` sub-folder, will be created (if it does not already exist).
++ The report will be saved in the `Reports/` folder.
 
-To access all of the other features available in this project (in addition to the aforementioned) open `NESREA_social.Rproj` in the [RStudio](https://www.rstudio.com/products/RStudio/) IDE.
+@. Download new data  
+The data are stored in a local **SQLite** database, called `nesreanigeria.db`; SQLite itself is automatically installed alongside relevant CRAN packages. To optionally update the database before generating the report, the user should type
+```
+make update
+```
 
+@. Unit testing  
+This project is intended to be high-flux, with frequent updates, as well as to provide a measure of instruction for NESREA's  Web Monitoring Group. Should the user want to be part of its development or wishes to clone it for a different line of development, testing capabilities have been included. To easily run a unit test in the project, simply type
+```
+make test
+```
 
+For additional features (e.g. experimental files, tutorials), open `NESREA_social.Rproj` in the [RStudio](https://www.rstudio.com/products/RStudio/) IDE and explore the various directories, especially in  *facebook*, *twitter* and *website*.
+
+__*Note that due to the absence of a graphics device (at the time of writing), this document cannot be built in the Linux Subsystem for Windows 10.*__  
+***
+Contact: <socialmedia@nesrea.gov.ng>.
